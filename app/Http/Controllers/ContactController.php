@@ -57,15 +57,13 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-
         $validated = $request->validate([
             'name' => 'required|min:5|max:255',
             'surname' => 'required|min:5|max:255',
             'email' => 'required|email|max:255|unique:contacts,email',
             'birthday' => 'required|date_format:Y-m-d|before_or_equal:' . $this->dateNow->modify(Config::get('constants.full_age.full_age_18')),
         ]);
-
-        $contact = new Contact($request->except('_token'));
+        $contact = new Contact($request->only('name','surname','email','birthday'));
         $contact->save();
 
         return redirect()->route('index');
