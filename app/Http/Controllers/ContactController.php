@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Filters\ContractFilter;
 use App\Models\Contact;
+use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Nette\Utils\DateTime;
@@ -62,9 +63,14 @@ class ContactController extends Controller
             'surname' => 'required|min:5|max:255',
             'email' => 'required|email|max:255|unique:contacts,email',
             'birthday' => 'required|date_format:Y-m-d|before_or_equal:' . $this->dateNow->modify(Config::get('constants.full_age.full_age_18')),
+            'phone_number' => 'required|regex:/^((\+?3)?8)?0\d{9}$/|min:10|max:13|unique:phone_numbers,phone_number',
         ]);
+        
         $contact = new Contact($request->only('name','surname','email','birthday'));
         $contact->save();
+
+        $phoneNumber = new PhoneNumber($request->only('phone_number'));
+        $contact->phoneNumber()->save($phoneNumber);
 
         return redirect()->route('index');
     }

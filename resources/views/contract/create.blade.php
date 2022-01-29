@@ -40,7 +40,7 @@
 
             <div class="col-md-6">
                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                       name="email" value="{{ old('email') }}" required autocomplete="почта">
+                       placeholder="почта"    name="email" value="{{ old('email') }}" required autocomplete="почта">
 
                 @error('email')
                 <span class="invalid-feedback" role="alert">
@@ -67,6 +67,18 @@
             </div>
         </div>
 
+        <div class="form-group row">
+            <label for="phone_number" class="col-md-4 col-form-label text-md-right">{{ __('Телефон') }}</label>
+            <div class="col-md-6">
+                <input id="phone_number" type="text" pattern="^((\+?3)?8)?0\d{9}$"
+                       class="form-control @error('phone_number') is-invalid @enderror"
+                       name="phone_number" value="{{ old('phone_number') }}" minlength="10" maxlength="14"
+                       placeholder="телефон" required autocomplete="phone number" autofocus>
+                @error('phone_number')
+                <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                @enderror
+            </div>
+        </div>
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-primary">Создать</button>
         </div>
