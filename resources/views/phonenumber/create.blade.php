@@ -10,7 +10,7 @@
         <div class="form-group row">
             <label for="phone_number" class="col-md-4 col-form-label text-md-right">{{ __('Телефон') }}</label>
             <div class="col-md-6">
-                <input id="phone_number" type="text" pattern="^\+?[\s\-\(\)0-9]{10,14}$"
+                <input id="phone_number" type="text" pattern="^((\+?3)?8)?0\d{9}$"
                        class="form-control @error('phone_number') is-invalid @enderror"
                        name="phone_number" value="{{ old('phone_number') }}" minlength="10" maxlength="14"
                        placeholder="телефон" required autocomplete="phone number" autofocus>

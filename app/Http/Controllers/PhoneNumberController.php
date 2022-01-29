@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Config;
 class PhoneNumberController extends Controller
 {
     private const PHONE_NUMBER_VALIDATOR = [
-        'phone_number' => 'required|regex:/^\+?[\s\-\(\)0-9]{10,14}$/|min:10|max:13|unique:phone_numbers,phone_number',
+        'phone_number' => 'required|regex:/^((\+?3)?8)?0\d{9}$/|min:10|max:13|unique:phone_numbers,phone_number',
     ];
 
     /** View create phone number
