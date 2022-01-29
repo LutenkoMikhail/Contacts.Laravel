@@ -99,9 +99,9 @@
             </tbody>
         </table>
 
-        <div class="d-flex justify-content-center">
-            {!!$contacts->links() !!}
-        </div>
+{{--        <div class="d-flex justify-content-center">--}}
+{{--            {!!$contacts->links() !!}--}}
+{{--        </div>--}}
     @else
         <div class="text-center">
             <h2>

@@ -2,6 +2,10 @@
 
 namespace App\Filters;
 
+use App\Models\Contact;
+use App\Models\PhoneNumber;
+use Illuminate\Support\Facades\DB;
+
 class ContractFilter extends QueryFilter
 {
     /** Search by fields in the database

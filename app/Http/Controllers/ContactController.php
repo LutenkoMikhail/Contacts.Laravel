@@ -27,8 +27,19 @@ class ContactController extends Controller
      */
     public function index(ContractFilter $filter)
     {
-        $contacts = Contact::filter($filter)->with('phoneNumber')->
-        orderBy('name')->paginate($this->paginate);
+        $phoneNumbers = PhoneNumber::where('phone_number', 'LIKE', '%' . $filter->request->search_field . '%')
+        ->pluck('contact_id')->toArray();
+
+        $phoneContacts = Contact::whereIn('id', $phoneNumbers)->get();
+
+        $contacts = Contact::filter($filter)
+            ->with('phoneNumber')
+            ->orderBy('name')
+            ->paginate($this->paginate);
+
+        if ($phoneContacts->isNotEmpty()) {
+            $contacts =$contacts->merge($phoneContacts);
+        }
 
         return view('index',
             ['contacts' => $contacts]);
@@ -65,8 +76,8 @@ class ContactController extends Controller
             'birthday' => 'required|date_format:Y-m-d|before_or_equal:' . $this->dateNow->modify(Config::get('constants.full_age.full_age_18')),
             'phone_number' => 'required|regex:/^((\+?3)?8)?0\d{9}$/|min:10|max:13|unique:phone_numbers,phone_number',
         ]);
-        
-        $contact = new Contact($request->only('name','surname','email','birthday'));
+
+        $contact = new Contact($request->only('name', 'surname', 'email', 'birthday'));
         $contact->save();
 
         $phoneNumber = new PhoneNumber($request->only('phone_number'));
