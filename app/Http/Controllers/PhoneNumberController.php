@@ -6,12 +6,16 @@ use App\Models\Contact;
 use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Validation\Rule;
 
 class PhoneNumberController extends Controller
 {
+    private const PHONE_NUMBER_REGEX = '/^((\+?3)?8)?0\d{9}$/';
+
     private const PHONE_NUMBER_VALIDATOR = [
-        'phone_number' => 'required|regex:/^((\+?3)?8)?0\d{9}$/|min:10|max:13|unique:phone_numbers,phone_number',
+        'phone_number' => 'required|regex:' . self::PHONE_NUMBER_REGEX . '|min:10|max:13|unique:phone_numbers,phone_number',
     ];
+
 
     /** View create phone number
      * @param int $id
@@ -63,7 +67,10 @@ class PhoneNumberController extends Controller
      */
     public function update(Request $request, int $phoneNumber)
     {
-        $validated = $request->validate(self::PHONE_NUMBER_VALIDATOR);
+        $validated = $request->validate([
+            'phone_number' => ['required', 'regex:' . self::PHONE_NUMBER_REGEX, 'min:10', 'max:13',
+                Rule::unique('phone_numbers', 'phone_number')->ignore($phoneNumber)]
+        ]);
 
         $phoneNumber = PhoneNumber::find($phoneNumber);
         $phoneNumber->phone_number = $request->phone_number;
