@@ -86,6 +86,14 @@ class PhoneNumberController extends Controller
      */
     public function delete(int $id)
     {
+
+        $phoneNumber = PhoneNumber::find($id);
+        $contact = Contact::find($phoneNumber->contact->id);
+
+        if ($contact->phoneNumber->count() <= 1) {
+            return redirect()->back()->withSuccess('Must have one phone number!');
+        }
+
         PhoneNumber::destroy($id);
 
         return redirect()->back();
