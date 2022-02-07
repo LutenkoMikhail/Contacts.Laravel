@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 
 class PhoneNumberController extends Controller
 {
-    private const PHONE_NUMBER_REGEX = '/^((\+?3)?8)?0\d{9}$/';
+    private const PHONE_NUMBER_REGEX = '/^((\+?38))?0\d{9}$/';
 
     private const PHONE_NUMBER_VALIDATOR = [
         'phone_number' => 'required|regex:' . self::PHONE_NUMBER_REGEX . '|min:10|max:13|unique:phone_numbers,phone_number',
