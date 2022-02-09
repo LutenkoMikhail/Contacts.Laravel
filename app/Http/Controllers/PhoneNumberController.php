@@ -80,21 +80,22 @@ class PhoneNumberController extends Controller
     }
 
 
-    /** Delete phone number
-     * @param int $id
+    /**
+     * Delete phone number
+     * @param PhoneNumber $phoneNumber
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function delete(int $id)
+    public function delete(PhoneNumber $phonenumber)
     {
 
-        $phoneNumber = PhoneNumber::find($id);
-        $contact = Contact::find($phoneNumber->contact->id);
+        $contact = Contact::find($phonenumber->contact->id);
 
         if ($contact->phoneNumber->count() <= 1) {
             return redirect()->back()->withSuccess('Must have one phone number!');
         }
 
-        PhoneNumber::destroy($id);
+        $phonenumber->delete();
 
         return redirect()->back();
     }
