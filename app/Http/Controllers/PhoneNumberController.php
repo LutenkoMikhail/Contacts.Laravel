@@ -45,38 +45,40 @@ class PhoneNumberController extends Controller
         return redirect()->route('contact.show', ['contact' => $contact]);
     }
 
-    /** View edit phone number
-     * @param int $phoneNumberId
+
+    /**
+     * View edit phone number
+     * @param PhoneNumber $phonenumber
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(int $phoneNumberId)
+    public function edit(PhoneNumber $phonenumber)
     {
-        $phoneNumber = PhoneNumber::find($phoneNumberId);
 
         return view('phonenumber.edit',
             [
-                'phoneNumber' => $phoneNumber
+                'phoneNumber' => $phonenumber
             ]
         );
     }
 
-    /** Update phone number
+
+    /**
+     * Update phone number
      * @param Request $request
-     * @param int $phoneNumber
+     * @param PhoneNumber $phonenumber
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, int $phoneNumber)
+    public function update(Request $request, PhoneNumber $phonenumber)
     {
         $validated = $request->validate([
             'phone_number' => ['required', 'regex:' . self::PHONE_NUMBER_REGEX, 'min:10', 'max:13',
-                Rule::unique('phone_numbers', 'phone_number')->ignore($phoneNumber)]
+                Rule::unique('phone_numbers', 'phone_number')->ignore($phonenumber->id)]
         ]);
 
-        $phoneNumber = PhoneNumber::find($phoneNumber);
-        $phoneNumber->phone_number = $request->phone_number;
-        $phoneNumber->save();
+        $phonenumber->phone_number = $request->phone_number;
+        $phonenumber->save();
 
-        return redirect()->route('contact.show', ['contact' => $phoneNumber->contact]);
+        return redirect()->route('contact.show', ['contact' => $phonenumber->contact]);
     }
 
 

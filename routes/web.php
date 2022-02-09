@@ -24,5 +24,5 @@ Route::post('contact/{contact}', [\App\Http\Controllers\ContactController::class
 Route::get('phonenumber/create/{contactId}',  [\App\Http\Controllers\PhoneNumberController::class, 'create'])->name('phonenumber.create');
 Route::post('phonenumber/store/{contactId}',  [\App\Http\Controllers\PhoneNumberController::class, 'store'])->name('phonenumber.store');
 Route::get('phonenumber/{phonenumber}/edit', [\App\Http\Controllers\PhoneNumberController::class, 'edit'])->name('phonenumber.edit');
-Route::post('phonenumber/{phonenumberId}', [\App\Http\Controllers\PhoneNumberController::class, 'update'])->name('phonenumber.update');
+Route::post('phonenumber/{phonenumber}', [\App\Http\Controllers\PhoneNumberController::class, 'update'])->name('phonenumber.update');
 Route::get('phonenumber/{phonenumber}/delete', [\App\Http\Controllers\PhoneNumberController::class, 'delete'])->name('phonenumber.delete');
